@@ -55,6 +55,7 @@ function App() {
         license_plate: licensePlate.toUpperCase(),
       });
       setMessage(`Đăng ký thành công! OTP: ${res.data.otp}`);
+      // alert đã được loại bỏ theo yêu cầu
       fetchSlots();
 
     } catch (err) {
