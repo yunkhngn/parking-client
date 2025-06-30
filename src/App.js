@@ -43,8 +43,10 @@ function App() {
   };
 
   return (
+  <div className="App">
+    <div className="header-image"></div>
     <div className="container">
-      <h1>Đăng ký chỗ đỗ xe</h1>
+      <h1>Hệ thống đăng ký chỗ đỗ xe</h1>
       <div className="slot-list">
         {slots.map((slot) => (
           <button
@@ -68,6 +70,10 @@ function App() {
       </button>
       {message && <p className="message">{message}</p>}
     </div>
+    <footer className="footer">
+      <p>© 2025 Hệ thống đăng ký chỗ đỗ xe tự động</p>
+    </footer>
+  </div>
   );
 }
 
