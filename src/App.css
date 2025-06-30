@@ -6,6 +6,7 @@ body {
 }
 
 .container {
+  z-index: 1000;
   max-width: 600px;
   margin: 50px auto;
   background: #fff;
@@ -129,16 +130,4 @@ h1 {
   .input-field {
     font-size: 14px;
   }
-}
-
-.footer{
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  font-size: 14px;
-  color: #6c757d;
 }

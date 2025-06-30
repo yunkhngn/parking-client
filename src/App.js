@@ -10,6 +10,11 @@ function App() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [message, setMessage] = useState('');
 
+  const [checkPlate, setCheckPlate] = useState('');
+  const [checkOtp, setCheckOtp] = useState('');
+  const [checkMessage, setCheckMessage] = useState('');
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+
   useEffect(() => {
     fetchSlots();
   }, []);
@@ -25,28 +30,72 @@ function App() {
   };
 
   const handleRegister = async () => {
-    if (!selectedSlot || !licensePlate) {
-      setMessage('Vui lòng nhập biển số và chọn slot');
+  if (!selectedSlot || !licensePlate) {
+    setMessage('Vui lòng nhập biển số và chọn slot');
+    return;
+  }
+
+  const platePattern = /^\w{2,3}-\d{4,5}$/;
+  if (!platePattern.test(licensePlate)) {
+    setMessage('Biển số không đúng định dạng (VD: ABC-12345)');
+    return;
+  }
+
+  try {
+    const resSlots = await axios.get(`${API_BASE}/slots`);
+    const latestSlot = resSlots.data.find(slot => slot.slot_number === selectedSlot);
+
+    if (!latestSlot || latestSlot.status !== 'available') {
+      setMessage('Slot này đã được đăng ký, hãy chọn slot khác');
+      fetchSlots(); 
       return;
     }
+    const res = await axios.post(`${API_BASE}/register`, {
+      slot_number: selectedSlot,
+      license_plate: licensePlate.toUpperCase(),
+    });
+    setMessage(`Đăng ký thành công! OTP: ${res.data.otp}`);
+    fetchSlots();
+
+  } catch (err) {
+    console.error(err);
+    setMessage(err.response?.data?.error || 'Đăng ký thất bại');
+  }
+};
+
+  const handleCheck = async () => {
+    if (!checkPlate || !checkOtp) {
+      setCheckMessage('Vui lòng nhập biển số và OTP');
+      return;
+    }
+
     try {
-      const res = await axios.post(`${API_BASE}/register`, {
-        slot_number: selectedSlot,
-        license_plate: licensePlate,
-      });
-      setMessage(`Đăng ký thành công! OTP: ${res.data.otp}`);
-      fetchSlots();
+      if (!isCheckedIn) {
+        const res = await axios.post(`${API_BASE}/checkin`, {
+          license_plate: checkPlate.toUpperCase(),
+          otp: checkOtp
+        });
+        setCheckMessage(res.data.message || 'Check-in thành công');
+        setIsCheckedIn(true);
+      } else {
+        const res = await axios.post(`${API_BASE}/checkout`, {
+          license_plate: checkPlate.toUpperCase(),
+          otp: checkOtp
+        });
+        setCheckMessage(res.data.message || 'Check-out thành công');
+        setIsCheckedIn(false);
+        fetchSlots();
+      }
     } catch (err) {
       console.error(err);
-      setMessage(err.response?.data?.error || 'Đăng ký thất bại');
+      setCheckMessage(err.response?.data?.error || 'Thao tác thất bại');
     }
   };
 
   return (
   <div className="App">
-    <div className="header-image"></div>
     <div className="container">
-      <h1>Hệ thống đăng ký chỗ đỗ xe</h1>
+      <h1>Đăng ký chỗ đỗ xe</h1>
       <div className="slot-list">
         {slots.map((slot) => (
           <button
@@ -70,9 +119,26 @@ function App() {
       </button>
       {message && <p className="message">{message}</p>}
     </div>
-    <footer className="footer">
-      <p>© 2025 Hệ thống đăng ký chỗ đỗ xe tự động</p>
-    </footer>
+
+    <div className="container">
+      <h2>Check-in / Check-out</h2>
+      <input
+        className="input-field"
+        placeholder="Nhập biển số xe..."
+        value={checkPlate}
+        onChange={(e) => setCheckPlate(e.target.value)}
+      />
+      <input
+        className="input-field"
+        placeholder="Nhập OTP..."
+        value={checkOtp}
+        onChange={(e) => setCheckOtp(e.target.value)}
+      />
+      <button className="register-button" onClick={handleCheck}>
+        {isCheckedIn ? 'Check-out' : 'Check-in'}
+      </button>
+      {checkMessage && <p className="message">{checkMessage}</p>}
+    </div>
   </div>
   );
 }
