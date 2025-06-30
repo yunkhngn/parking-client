@@ -1,38 +1,115 @@
-.App {
+body {
+  background: #f0f4f8;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.slot-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.slot-button {
+  margin: 5px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.3s;
+  font-size: 18px;
+}
+
+.slot-button.available {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.slot-button.occupied {
+  background-color: #f8d7da;
+  color: #721c24;
+  cursor: not-allowed;
+}
+
+.slot-button.selected {
+  border-color: #007bff;
+  transform: scale(1.1);
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.message {
+  margin-top: 20px;
+  font-weight: bold;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Responsive */
+@media (max-width: 480px) {
+  .container {
+    margin: 20px 10px;
+    padding: 20px;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .slot-button {
+    flex: 1 1 100%;
+    font-size: 16px;
+    padding: 12px 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .register-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .input-field {
+    font-size: 14px;
   }
 }
