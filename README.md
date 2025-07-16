@@ -100,26 +100,42 @@ REACT_APP_API_BASE=http://localhost:1204
 
 ## 🧪 Tính năng
 
-- Hiển thị trạng thái slot (trống / đã đăng ký).
-- Validate biển số xe theo định dạng: `ABC-12345` hoặc `29M-1234`
-- Check trạng thái hiện tại (chưa check-in → check-in, đã check-in → check-out).
-- Gửi yêu cầu qua API tới backend Node.js.
+- ✅ Hiển thị trạng thái slot (trống / đã đăng ký).
+- 🔐 Validate biển số xe (`ABC-12345` hoặc `29M-1234`).
+- 🔄 Check trạng thái để tự động chuyển đổi giữa check-in / check-out.
+- 📡 Gửi request đến API Node.js backend.
 
 ## 📦 Yêu cầu
 
-- Node.js >= 16.x
-- yarn >= 1.22
+| Thành phần | Phiên bản yêu cầu |
+|------------|------------------|
+| 🟢 Node.js | >= 16.x          |
+| 🧶 Yarn    | >= 1.22          |
 
 ## 📁 API sử dụng
 
-| Method | Endpoint        | Chức năng             |
-|--------|------------------|------------------------|
-| GET    | /slots           | Lấy danh sách slot     |
-| POST   | /register        | Đăng ký slot           |
-| POST   | /checkin         | Check-in xe            |
-| POST   | /checkout        | Check-out xe           |
-| POST   | /status          | Kiểm tra trạng thái xe |
+| Method | Endpoint    | 📋 Mô tả chức năng               |
+|--------|-------------|----------------------------------|
+| 🟢 GET | `/slots`    | Lấy danh sách các slot khả dụng |
+| 🟠 POST | `/register` | Đăng ký slot với biển số xe     |
+| 🟠 POST | `/checkin`  | Tiến hành check-in              |
+| 🟠 POST | `/checkout` | Tiến hành check-out             |
+| 🟠 POST | `/status`   | Kiểm tra trạng thái xe hiện tại |
 
 ## 👤 Tác giả
 
 Khoa Nguyễn – 2025
+
+---
+
+## 📸 Giao diện
+
+![UI Screenshot](./screenshot.png) <!-- (nếu có) -->
+
+## 🤝 Đóng góp
+
+Chào đón mọi đóng góp! Vui lòng mở pull request hoặc issue nếu bạn có ý tưởng cải tiến.
+
+## 📄 License
+
+MIT License
