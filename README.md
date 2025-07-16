@@ -68,3 +68,58 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# 🌐 Parking Client (React)
+
+Đây là giao diện web của hệ thống AutoParking, cho phép người dùng:
+- Đăng ký chỗ đỗ xe.
+- Nhận mã OTP.
+- Check-in / Check-out xe.
+
+## 🚀 Khởi động dự án
+
+```bash
+yarn install
+yarn start
+```
+
+Mặc định sẽ chạy tại `http://localhost:3000`.
+
+## 🛠️ Môi trường
+
+Tạo file `.env` tại thư mục gốc:
+
+```
+REACT_APP_API_BASE=http://localhost:1204
+```
+
+## 🔧 Cấu trúc chính
+
+- `App.js` – Giao diện chính cho việc đăng ký và checkin/checkout.
+- `App.css` – Giao diện và style tùy chỉnh.
+
+## 🧪 Tính năng
+
+- Hiển thị trạng thái slot (trống / đã đăng ký).
+- Validate biển số xe theo định dạng: `ABC-12345` hoặc `29M-1234`
+- Check trạng thái hiện tại (chưa check-in → check-in, đã check-in → check-out).
+- Gửi yêu cầu qua API tới backend Node.js.
+
+## 📦 Yêu cầu
+
+- Node.js >= 16.x
+- yarn >= 1.22
+
+## 📁 API sử dụng
+
+| Method | Endpoint        | Chức năng             |
+|--------|------------------|------------------------|
+| GET    | /slots           | Lấy danh sách slot     |
+| POST   | /register        | Đăng ký slot           |
+| POST   | /checkin         | Check-in xe            |
+| POST   | /checkout        | Check-out xe           |
+| POST   | /status          | Kiểm tra trạng thái xe |
+
+## 👤 Tác giả
+
+Khoa Nguyễn – 2025
