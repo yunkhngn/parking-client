@@ -69,36 +69,51 @@ function App() {
     setCheckMessage('Vui lòng nhập biển số và OTP');
     return;
   }
+
   try {
-    // 1) Kiểm tra trạng thái
     const res = await axios.post(`${API_BASE}/status`, {
       license_plate: checkPlate.toUpperCase(),
       otp: checkOtp
     });
+
     if (res.data.status === 'checked_in') {
-      // 2) Đã check-in → thực hiện check-out
-      const outRes = await axios.post(`${API_BASE}/checkout`, {
-        license_plate: checkPlate.toUpperCase(),
-        otp: checkOtp
-      });
-      setCheckMessage(outRes.data.message || 'Check-out thành công');
-      setIsCheckedIn(false);
-      fetchSlots();
+      // Đã check-in → thực hiện check-out
+      try {
+        const outRes = await axios.post(`${API_BASE}/checkout`, {
+          license_plate: checkPlate.toUpperCase(),
+          otp: checkOtp
+        });
+        setCheckMessage(outRes.data.message || 'Check-out thành công');
+        setIsCheckedIn(false);
+        fetchSlots();
+      } catch (err) {
+        if (err.response?.status === 403) {
+          setCheckMessage('Không thể check-out: Xe vẫn đang ở slot');
+        } else {
+          setCheckMessage(err.response?.data?.error || 'Lỗi khi check-out');
+        }
+      }
+
     } else if (res.data.status === 'checked_out') {
       setIsCheckedIn(false);
       setCheckMessage('Xe đã check-out. Bạn cần đăng ký lại.');
+
     } else {
-      // 3) Chưa check-in → thực hiện check-in
-      const inRes = await axios.post(`${API_BASE}/checkin`, {
-        license_plate: checkPlate.toUpperCase(),
-        otp: checkOtp
-      });
-      setCheckMessage(inRes.data.message || 'Check-in thành công');
-      setIsCheckedIn(true);
+      // Chưa check-in → thực hiện check-in
+      try {
+        const inRes = await axios.post(`${API_BASE}/checkin`, {
+          license_plate: checkPlate.toUpperCase(),
+          otp: checkOtp
+        });
+        setCheckMessage(inRes.data.message || 'Check-in thành công');
+        setIsCheckedIn(true);
+      } catch (err) {
+        setCheckMessage(err.response?.data?.error || 'Lỗi khi check-in');
+      }
     }
   } catch (err) {
     console.error(err);
-    setCheckMessage(err.response?.data?.error || 'Lỗi khi thao tác');
+    setCheckMessage(err.response?.data?.error || 'Không kiểm tra được trạng thái');
   }
 };
 
@@ -130,7 +145,7 @@ function App() {
         {message && <p className="message">{message}</p>}
       </div>
 
-      <div className="container">
+      {/* <div className="container">
         <h2>Check-in / Check-out</h2>
         <input
           className="input-field"
@@ -148,7 +163,7 @@ function App() {
           Submit
         </button>
         {checkMessage && <p className="message">{checkMessage}</p>}
-      </div>
+      </div> */}
     </div>
   );
 }
