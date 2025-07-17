@@ -17,7 +17,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && rm -rf /Volumes/Data/Code/autoparking-system/autoparking-server/esp32/data/* && cp -r ./build/* /Volumes/Data/Code/autoparking-system/autoparking-server/esp32/data"
   },
   "eslintConfig": {
     "extends": [

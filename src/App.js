@@ -90,6 +90,7 @@ function App() {
             otp: checkOtp
           });
           console.log('✅ Updated DB after checkout');
+          await fetchSlots();
         } catch (updateErr) {
           console.error('❌ Failed to update DB:', updateErr);
         }
