@@ -84,6 +84,15 @@ function App() {
           otp: checkOtp
         });
         setCheckMessage(outRes.data.message || 'Check-out thành công');
+        try {
+          await axios.post(`${API_BASE}/update-slot-after-checkout`, {
+            license_plate: checkPlate.toUpperCase(),
+            otp: checkOtp
+          });
+          console.log('✅ Updated DB after checkout');
+        } catch (updateErr) {
+          console.error('❌ Failed to update DB:', updateErr);
+        }
         setIsCheckedIn(false);
         fetchSlots();
       } catch (err) {
@@ -145,7 +154,7 @@ function App() {
         {message && <p className="message">{message}</p>}
       </div>
 
-      {/* <div className="container">
+      <div className="container">
         <h2>Check-in / Check-out</h2>
         <input
           className="input-field"
@@ -163,7 +172,7 @@ function App() {
           Submit
         </button>
         {checkMessage && <p className="message">{checkMessage}</p>}
-      </div> */}
+      </div>
     </div>
   );
 }
